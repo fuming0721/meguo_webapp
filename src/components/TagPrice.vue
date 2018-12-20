@@ -15,9 +15,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less" type="text/less" scope>
+<style lang="less" type="text/less" scoped>
   .tag_item{
-    width: 160px;
+    width: 150px;
     height: 30px;
     border-radius: 30px;
     color: #fff;
@@ -25,6 +25,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 10px;
   }
   .vipTag{
      background: -moz-linear-gradient(left, #FAD961 0%, #FF5C00 100%);

@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <keep-alive>
-      <router-view class="routerView" v-if="$route.meta.keepAlive"></router-view>
+      <router-view class="routerView"></router-view>
     </keep-alive>
-    <router-view  class="routerView" v-if="!$route.meta.keepAlive"></router-view>
-    <footer-nav />
+    <footer-nav v-if="$route.meta.showTabbar"/>
   </div>
 </template>
 
@@ -21,9 +20,10 @@ export default {
 }
 </script>
 <style lang="less" type="text/less">
+  @import "assets/style/fonts/iconfont.css";
   @import "assets/style/reset.less";
   @import "assets/style/common.less";
   .routerView{
-    min-height: calc(100vh - 100px);
+    min-height: 100vh;
   }
 </style>

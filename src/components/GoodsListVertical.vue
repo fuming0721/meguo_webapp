@@ -1,29 +1,26 @@
 <template>
-  <div class="goodsCotent">
+  <div class="goodsCotent" id="goodsCotent" :class="{haveTabbar: $route.meta.showTabbar}">
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="getGoodsList" v-if="!noGoods">
       <goods-item v-for="(item, index) in dataList" :key="index" :item="item" :index="index" :timeNavItemData="timeNavItemData"></goods-item>
     </van-list>
-    <div v-else>
-      哈哈哈哈啊哈
-    </div>
+    <no-goods v-else text="除了你，我是真的一无所有…">
+      <img src="@/assets/images/noGoods.png" alt="">
+    </no-goods>
   </div>
 </template>
 
 <script>
 import GoodsItem from '@/components/GoodsItem'
+import NoGoods from '@/components/NoGoods'
 export default {
   props: {
     getDataName: {
       require: true,
       type: String
     },
-    activeId: {
-      require: true,
-      type: String
-    },
-    channel: {
-      require: true,
-      type: String
+    pramas: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -35,16 +32,24 @@ export default {
       dataList: [],
       timeNavItemData: {
         over: ''
-      }
+      },
+      navOffsetTop: 0
     }
   },
   components: {
-    GoodsItem
+    GoodsItem,
+    NoGoods
+  },
+  mounted () {
+    this.$nextTick().then(() => {
+      this.navOffsetTop = document.querySelector('#goodsCotent').offsetTop
+    })
   },
   methods: {
     async getGoodsList () {
-      let pramas = { channel: this.channel, cid: this.activeId, page: this.nextPage }
-      let goodsinfo = await this.$api(this.getDataName, pramas)
+      let dataForm = {}
+      Object.assign(dataForm, this.pramas, { page: this.nextPage })
+      let goodsinfo = await this.$api(this.getDataName, dataForm)
       if (goodsinfo.data.success) {
         this.loading = false
         this.finished = false
@@ -60,21 +65,26 @@ export default {
     }
   },
   watch: {
-    activeId (newVal) {
-      this.loading = true
-      this.finished = false
-      this.dataList = []
-      this.nextPage = 1
-      this.getGoodsList()
+    pramas: {
+      handler () {
+        this.loading = true
+        this.finished = false
+        this.dataList = []
+        this.nextPage = 1
+        document.documentElement.scrollTop = this.navOffsetTop - 160
+        this.getGoodsList()
+      },
+      deep: true
     }
   }
 }
 </script>
 
-<style lang="less" type="text/less" scope>
+<style lang="less" type="text/less" scoped>
   .goodsCotent{
-    min-height: 1600px;
-    margin-bottom: 100px;
-    padding-top: 80px;
+    min-height: 1240px;
+  }
+  .haveTabbar{
+    margin-bottom: 110px;
   }
 </style>

@@ -1,9 +1,6 @@
-/**
- * Created by Administrator on 2018/5/25 0025.
- */
-import store from '../vuex/store.js'
-function setupWebViewJavascriptBridge(callback) {
-  if (store.state.isiOSApp) {
+import deviceType from './device'
+const setupWebViewJavascriptBridge = (callback) => {
+  if (deviceType.isiOSApp) {
     if (window.WebViewJavascriptBridge) {
       return callback(window.WebViewJavascriptBridge)
     }
@@ -18,32 +15,30 @@ function setupWebViewJavascriptBridge(callback) {
     setTimeout(() => {
       document.documentElement.removeChild(WVJBIframe)
     }, 0)
-  } else if (store.state.isAndroidApp) {
+  } else if (deviceType.isAndroidApp) {
     if (window.WebViewJavascriptBridge) {
-      callback(WebViewJavascriptBridge)
+      callback(window.WebViewJavascriptBridge)
     } else {
       document.addEventListener(
         'WebViewJavascriptBridgeReady'
-        , function () {
-          callback(WebViewJavascriptBridge)
+        , () => {
+          callback(window.WebViewJavascriptBridge)
         },
         false
-      );
+      )
     }
   }
 }
 
-
-
 export default {
   callhandler (name, data, callback) {
-    setupWebViewJavascriptBridge(function (bridge) {
+    setupWebViewJavascriptBridge((bridge) => {
       bridge.callHandler(name, data, callback)
     })
   },
   registerhandler (name, callback) {
-    setupWebViewJavascriptBridge(function (bridge) {
-      bridge.registerHandler(name, function (data, responseCallback) {
+    setupWebViewJavascriptBridge((bridge) => {
+      bridge.registerHandler(name, (data, responseCallback) => {
         callback(data, responseCallback)
       })
     })

@@ -55,22 +55,21 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="less" type="text/less" scoped>
   .countDown {
     font-size: 20px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-  }
-
-  .countDown > span {
-    width: 34px;
-    height: 34px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    background-color: #000;
-    border-radius: 50%;
+    &>span {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        background-color: #000;
+        border-radius: 50%;
+      }
   }
 </style>

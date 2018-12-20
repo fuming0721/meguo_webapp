@@ -31,7 +31,8 @@ export default {
 
   watch: {
     params: {
-      handler (v) {
+      handler (v, o) {
+        console.log(v === o)
         this.doFetch()
       },
       deep: true
@@ -70,7 +71,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" type="text/less" scoped>
   .error, .loadingPage{
     position: absolute;
     top: 0;

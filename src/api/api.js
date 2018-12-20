@@ -9,10 +9,16 @@ export default {
       axios.get('/threads/volume-rank') // 销量排行
     ])
   },
-  pib (params) {
-    return axios.post('/threads/is-favorite', qs.stringify(params))
-  },
   goodList (params) {
     return axios.get('/threads/good-lists', { params: params })
+  },
+  albumList (params) {
+    return axios.get('/threads/album-list', { params: params })
+  },
+  subCategoryNav (params) {
+    return axios.get('/threads/sub-category', { params: params })
+  },
+  pib (params) {
+    return axios.post('/threads/is-favorite', qs.stringify(params))
   }
 }

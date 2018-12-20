@@ -1,13 +1,12 @@
 <template>
   <loading-container fetch="getHomeData" :params="params" @done="onDone">
-    <top-search></top-search>
+    <top-search class="top-search" />
     <sweiper :swiperImgs="swiperImgs" />
-    <icon-nav></icon-nav>
-
-    <today-must-browse class="today-must-browse" :todayMustBrowseData="todayMustBrowse" @timeEnd="timeEnd"></today-must-browse>
-    <goods-list-slider :volumeRank="volumeRank" title="销量排行"></goods-list-slider>
-
-    <goods-category-nav-page></goods-category-nav-page>
+    <icon-nav />
+    <today-must-browse class="today-must-browse" :todayMustBrowseData="todayMustBrowse" @timeEnd="timeEnd" />
+    <goods-list-slider :volumeRank="volumeRank" title="销量排行" />
+    <goods-category-nav-page />
+    <back-top />
   </loading-container>
 </template>
 
@@ -36,8 +35,6 @@ export default {
       volumeRank: []
     }
   },
-  mounted () {
-  },
   methods: {
     onDone ([swiperImgs, todayMustBrowse, volumeRank]) {
       this.swiperImgs = swiperImgs.data.pic
@@ -51,9 +48,12 @@ export default {
 }
 </script>
 
-<style lang="less" type="text/less" scope>
+<style lang="less" type="text/less" scoped>
   .today-must-browse{
     margin-top: 20px;
     background-color: #fff;
+  }
+  .top-search{
+    position: sticky;
   }
 </style>

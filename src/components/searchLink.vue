@@ -1,5 +1,5 @@
 <template>
-  <div class="topSearch positionCenter">
+  <div class="searchLink">
     <div class="topSearchCenter">
       <van-icon name="search" color="#aaa"/>
       <p class="searchText">搜索您想要的优惠商品</p>
@@ -7,9 +7,8 @@
   </div>
 </template>
 
-<style lang="less" scoped>
-  .topSearch{
-    position: fixed;
+<style lang="less" type="text/less" scoped>
+  .searchLink{
     top: 0;
     left: 0;
     right: 0;

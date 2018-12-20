@@ -1,63 +1,158 @@
 <template>
-  <div class="baoyou">
-    <ul class="ua">
-      <li @click="cli(index)" v-for="(item, index) in 10" :key="index" :class="{index: aindex === index}">点击</li>
-    </ul>
-    <ul>
-      <li v-for="item in dataList" :key="item.id">
-        <img v-lazy="item.thread_img" style="width: 200px" alt="">
-      </li>
-    </ul>
+  <div class="baoyouList">
+    <div class="listPage-top">
+      <nav class="listPage_nav">
+        <img src="@/assets/images/v4_baicai.png" alt="">
+      </nav>
+      <top-search class="top-search"></top-search>
+      <ul class="listPage_ul">
+        <router-link :key="index" tag="li" :to="item.path" class="listPage_topitem" v-for="(item, index) in randomADlist">
+          <img :src="item.picUrl" alt="">
+        </router-link>
+      </ul>
+    </div>
+
+    <van-tabs :line-width="80" @click="tabChange" :swipe-threshold="5">
+      <van-tab v-for="(item, index) in menuIcons" :key="index" :title="item.id.toString()">
+        <span slot="title" class="navItemName">{{item.name}}</span>
+      </van-tab>
+    </van-tabs>
+    <goods-list-vertical :pramas="pramas" :getDataName="getDataName"></goods-list-vertical>
   </div>
 </template>
 
 <script>
-
+import TopSearch from '@/components/searchLink'
 export default {
-  name: 'baoyou',
   components: {
+    TopSearch
   },
   data () {
     return {
-      num: 0,
-      dataList: [],
-      aindex: 0
+      menuIcons: [
+        { id: 1, name: '精选' },
+        { id: 2, name: '9块9' },
+        { id: 3, name: '19块9' },
+        { id: 4, name: '29块9' },
+        { id: 5, name: '39块9' }
+      ],
+      pramas: {
+        price: 1
+      },
+      getDataName: 'goodList',
+      adList: [
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i2/62752115/TB2t5vNxbGYBuNjy0FoXXciBFXa-62752115.png',
+          path: '/subcategory?cid=10&id=114&title=%E8%A2%9C%E7%B1%BB%E9%85%8D%E4%BB%B6'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i4/62752115/TB2bt2fxgaTBuNjSszfXXXgfpXa-62752115.png',
+          path: '/subcategory?cid=49&id=56&title=%E6%96%B0%E9%B2%9C%E6%B0%B4%E6%9E%9C'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i4/62752115/TB24sHKxeuSBuNjSsplXXbe8pXa-62752115.png',
+          path: '/subcategory?cid=62&id=66&title=%E6%95%B0%E7%A0%81%E9%85%8D%E4%BB%B6'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i4/62752115/TB2rLQBxbSYBuNjSspfXXcZCpXa-62752115.png',
+          path: '/subcategory?cid=3&id=121&title=%E5%A5%B3%E5%A3%AB%E9%9E%8B%E9%9D%B4'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i1/62752115/TB22nEfxkOWBuNjSsppXXXPgpXa-62752115.png',
+          path: '/sub?id=1&title=%E5%A5%B3%E8%A3%85'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i3/62752115/TB245nNxbGYBuNjy0FoXXciBFXa-62752115.png',
+          path: '/subcategory?cid=3&id=123&title=%E5%A5%B3%E5%A3%AB%E5%8C%85%E5%8C%85'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i2/62752115/TB2XvCBoZyYBuNkSnfoXXcWgVXa-62752115.png',
+          path: '/sub?id=2&title=%E7%94%B7%E8%A3%85'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i3/62752115/TB2OaoexkCWBuNjy0FaXXXUlXXa-62752115.png',
+          path: '/subcategory?cid=12&id=14&title=%E5%BD%A9%E5%A6%86%E4%BA%A7%E5%93%81'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i3/62752115/TB2xjehxDJYBeNjy1zeXXahzVXa-62752115.png',
+          path: '/subcategory?cid=92&id=95&title=%E7%BB%BF%E6%A4%8D%E8%8A%B1%E5%8D%89'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i4/62752115/TB22tPfxgaTBuNjSszfXXXgfpXa-62752115.png',
+          path: '/subcategory?cid=49&id=50&title=%E4%BC%91%E9%97%B2%E9%9B%B6%E9%A3%9F'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i3/62752115/TB272oXxb1YBuNjSszhXXcUsFXa-62752115.png',
+          path: '/subcategory?cid=37&id=38&title=%E5%B1%85%E5%AE%B6%E6%97%A5%E7%94%A8'
+        },
+        {
+          picUrl: 'https://img.alicdn.com/imgextra/i2/62752115/TB2i54kxqmWBuNjy1XaXXXCbXXa-62752115.png',
+          path: '/subcategory?cid=57&id=59&title=%E7%94%9F%E6%B4%BB%E7%94%B5%E5%99%A8'
+        }
+      ]
     }
   },
   mounted () {
-    this.$api('pib', { tid: 22132 }).then(data => {
-      console.log(data)
-    })
   },
   methods: {
-    getList () {
-      this.num += 1
-      this.$api('pic', { cid: this.num }).then(data => {
-        console.log(data)
-      })
+    tabChange (index, id) {
+      this.pramas.price = id
     },
-    cli (index) {
-      this.dataList = []
-      this.aindex = index
-      this.$api('goodList', { cid: index }).then(({ data }) => {
-        if (data.success) {
-          this.dataList.push(...data.result.articals)
-        }
-      })
+    getRandom (opt) {
+      let range = opt.range
+      range = range > opt.arr.length ? opt.arr.length : range
+      let newArray = [...opt.arr]
+      let valArray = []
+      for (var n = 0; n < range; n++) {
+        var r = Math.floor(Math.random() * (newArray.length))
+        valArray.push(newArray[r])
+        newArray.splice(r, 1)
+      }
+      return valArray
+    }
+  },
+  computed: {
+    randomADlist () {
+      return this.getRandom({ 'arr': this.adList, 'range': 6 })
     }
   }
 }
 </script>
 
-<style>
-  .ua {
+<style lang="less" type="text/less" scoped>
+  .listPage-top {
+    width: 100%;
+    background-image: url("../../assets/images/v4_bg1.png");
+    background-size: cover;
+    background-position: center;
+  }
+  .listPage_nav {
+    padding: 20px 0;
+    color: #fff;
+  }
+  .listPage_nav > img {
+    height: 40px;
+    margin: 0 auto;
+  }
+  .top-search{
+    background-color: transparent;
+  }
+  .listPage_ul {
+    /*padding: 2.5vw;*/
+    padding: 20px;
+    padding-bottom: 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
-  .ua>li{
-    width: 100px;
-  }
-  .index{
-    color: red;
+  .listPage_topitem {
+    width: 222px;
+    height: 148px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    overflow: hidden;
+    &>img{
+      width: 100%;
+    }
   }
 </style>

@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style lang="less" type="text/less" scope>
+<style lang="less" type="text/less" scoped>
   .homeSwiper, .swiperItem {
     border-radius: 8px;
   }
@@ -34,6 +34,5 @@ export default {
   .swiper {
     padding: 10px 20px 10px;
     background-color: #fff;
-    margin-top: 80px;
   }
 </style>

@@ -5,12 +5,11 @@
         <span slot="title" class="navItemName">{{item.name}}</span>
       </van-tab>
     </van-tabs>
-    <goods-list-vertical :activeId="activeId" :getDataName="getDataName" channel="5"></goods-list-vertical>
+    <goods-list-vertical :pramas="{cid: activeId, channel: 5}" :getDataName="getDataName"></goods-list-vertical>
   </div>
 </template>
 
 <script>
-import GoodsListVertical from '@/components/GoodsListVertical'
 export default {
   data () {
     return {
@@ -18,10 +17,8 @@ export default {
       getDataName: 'goodList'
     }
   },
-  components: {
-    GoodsListVertical
-  },
   mounted () {
+
   },
   methods: {
     tabChange (index, id) {
@@ -37,7 +34,7 @@ export default {
 }
 </script>
 
-<style lang="less" type="text/less" scope>
+<style lang="less" type="text/less" scoped>
   .navItemName{
     font-size: 24px;
   }

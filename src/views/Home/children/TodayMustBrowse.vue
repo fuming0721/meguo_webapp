@@ -120,7 +120,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less" type="text/less" scope>
+<style lang="less" type="text/less" scoped>
   @import "../../../assets/style/variables";
   .app_goodsImg{
     width: 160px;

@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<style lang="less" type="text/less" scope>
+<style lang="less" type="text/less" scoped>
   .tabBar{
     position: fixed;
     width: 100%;
