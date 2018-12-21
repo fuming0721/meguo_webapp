@@ -1,10 +1,10 @@
 <template>
   <div class="goodsType">
     <p class="goodsType_title">
-      <van-icon name="fenlei1" class="fenlei" class-prefix="icon" />商品分类
+      <van-icon name="category" class="fenlei" class-prefix="icon" />商品分类
     </p>
     <ul class="goodsType_list">
-      <icon-link class="goodsType_listItem" v-for="(item, index) in $menuIcon" :iconItem="item" :key="index"  @iconClick="iconClick"></icon-link>
+      <icon-link class="goodsType_listItem" v-for="(item, index) in $menuIcon" :iconItem="item" :key="index"  @iconClick="iconClick" />
     </ul>
   </div>
 </template>
@@ -31,15 +31,7 @@ export default {
     font-size: 24px;
     margin-top: 10px;
   }
-  .goodsType_icon {
-    width: 90px;
-    height: 90px;
-    line-height: 90px;
-    text-align: center;
-    &>.fenlei{
-        font-size: 80px;
-      }
-  }
+
   .goodsType_listItem {
     width: 187.5px;
     height: 187.5px;
@@ -54,8 +46,8 @@ export default {
     justify-content: flex-start;
     align-items: center;
   }
-  .icon-fenlei1 {
-    font-size: 36px;
+  .fenlei {
+    font-size: 32px;
     color: #FFA2A7;
     margin-right: 10px;
   }

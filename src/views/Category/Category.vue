@@ -1,13 +1,15 @@
 <template>
   <loading-container fetch="subCategoryNav" :params="loadParams" @done="onDone">
-    <nav-bar :title="$route.query.title"></nav-bar>
-    <category-icon-nav :iconList="iconList"></category-icon-nav>
+    <nav-bar />
+    <category-icon-nav :iconList="iconList" />
     <van-tabs :line-width="80" @click="tabChange" :swipe-threshold="4">
       <van-tab v-for="(item, index) in sortname" :key="index" :title="item.channel.toString()">
         <span slot="title" class="navItemName">{{item.name}}</span>
       </van-tab>
     </van-tabs>
-    <goods-list-vertical :pramas="goodListParams" :getDataName="getDataName"></goods-list-vertical>
+    <goods-list-vertical fetch="goodsList" :pramas="goodListParams" @done="goodsListOnDone">
+      <goods-item v-for="(item, index) in goodsList" :key="index" :item="item" :index="index" />
+    </goods-list-vertical>
   </loading-container>
 </template>
 <script>
@@ -29,7 +31,7 @@ export default {
         channel: 4
       }],
       iconList: [],
-      getDataName: 'goodList',
+      goodsList: [],
       loadParams: {
         cid: this.$route.query.id
       },
@@ -48,6 +50,9 @@ export default {
     },
     tabChange (index, id) {
       this.goodListParams.channel = id
+    },
+    goodsListOnDone (data) {
+      this.goodsList = data
     }
   }
 }

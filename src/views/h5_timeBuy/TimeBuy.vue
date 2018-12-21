@@ -1,15 +1,15 @@
 <template>
-  <div class="channelBox" :class="{NavBarInApp: $deviceType.isMeguoApp}">
+  <div class="timeBuy" :class="{NavBarInApp: $deviceType.isMeguoApp}">
     <nav-bar />
-    <img src="https://img.alicdn.com/imgextra/i1/62752115/O1CN01iRbxbL1RUi9mbHc6i-62752115.png" alt="">
     <template v-if="timeNavList.length">
-      <time-nav class="halfOffTimeNav" :timeNavList="timeNavList" @getItemData="getItemData" @timeOver="getTimeNav" />
-      <goods-list-vertical fetch="halfOff" :pramas="goodListParams"  @done="onDone" >
+      <time-nav class="timeBuyTimeNav" :timeNavList="timeNavList" @getItemData="getItemData" @timeOver="getTimeNav" />
+      <goods-list-vertical fetch="timeBuy" :pramas="goodListParams"  @done="onDone" >
         <goods-item-channel v-for="(item, index) in dataList" :key="index" :item="item" :timeStatus="timeStatus">
           <span class="goodsItem_tag" v-if="item.extension.activity_id!=0" slot="activity_type">{{item.extension.activity_id | activity_type}}</span>
-          <div slot="subContent" class="brief" type="share">{{item.extension.brief}}</div>
-          <button class="buyNow" slot="buyBtn">去看看</button>
-          <tag-price slot="forMoney" class="forMoney" type="share">赚￥{{item.extension.commission | formatMoney}}</tag-price>
+          <tag-price slot="subContent" type="share">
+            分享赚￥{{item.extension.commission | formatMoney}}
+          </tag-price>
+          <button class="buyNow" slot="buyBtn">立即抢</button>
         </goods-item-channel>
       </goods-list-vertical>
     </template>
@@ -41,7 +41,9 @@ export default {
   },
   methods: {
     getTimeNav () {
-      this.$api('halfOffTimeStatus').then(({ data }) => {
+      this.$toast.loading('加载中。。')
+      this.$api('timeBuyTimeStatus').then(({ data }) => {
+        this.$toast.clear()
         if (data.success) {
           this.timeNavList = data.result
         } else {
@@ -63,7 +65,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" type="text/less" scoped>
-  .channelBox{
+  .timeBuy{
     padding-top: 80px;
   }
   .noTimeNav{
@@ -74,13 +76,5 @@ export default {
     align-items: center;
     height: 400px;
     color: @base_font_color;
-  }
-  .forMoney{
-    position: absolute;
-    left: 4px;
-    bottom: 4px;
-    width: 110px;
-    height: 28px;
-    font-size: 20px;
   }
 </style>

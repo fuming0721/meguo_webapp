@@ -1,12 +1,14 @@
 <template>
   <div class="subCategory">
-    <nav-bar :title="$route.query.title"></nav-bar>
+    <nav-bar />
     <van-tabs :line-width="80" @click="tabChange" :swipe-threshold="4">
       <van-tab v-for="(item, index) in sortname" :key="index" :title="item.channel.toString()">
         <span slot="title" class="navItemName">{{item.name}}</span>
       </van-tab>
     </van-tabs>
-    <goods-list-vertical class="goodsList" :pramas="goodListParams" :getDataName="getDataName"></goods-list-vertical>
+    <goods-list-vertical fetch="goodsList" :pramas="goodListParams" @done="onDone">
+      <goods-item v-for="(item, index) in goodsList" :key="index" :item="item" :index="index" />
+    </goods-list-vertical>
   </div>
 </template>
 <script>
@@ -26,8 +28,8 @@ export default {
         name: '销量',
         channel: 4
       }],
-      getDataName: 'goodList',
       iconList: [],
+      goodsList: [],
       goodListParams: {
         channel: 5,
         cid: this.$route.query.id
@@ -37,6 +39,9 @@ export default {
   methods: {
     tabChange (index, id) {
       this.goodListParams.channel = id
+    },
+    onDone (data) {
+      this.goodsList = data
     }
   }
 }

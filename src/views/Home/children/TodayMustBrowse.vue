@@ -42,15 +42,15 @@
       <div class="app_table_bottom">
         <div class="app_table_item2 table2">
           <p>聚好货</p>
-          <goods-item-grid :item="collection"></goods-item-grid>
+          <goods-item-grid :item="collection" />
         </div>
         <div class="app_table_item2 table2">
           <p>每日半价</p>
-          <goods-item-grid :item="halfPrice"></goods-item-grid>
+          <goods-item-grid :item="halfPrice" />
         </div>
         <div class="app_table_item2">
           <p>种草甄选</p>
-          <goods-item-grid :item="couponRank"></goods-item-grid>
+          <goods-item-grid :item="couponRank" />
         </div>
       </div>
     </div>

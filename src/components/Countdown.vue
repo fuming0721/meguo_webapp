@@ -15,15 +15,12 @@ export default {
       hour: '00',
       min: '00',
       sec: '00',
-      countdownTime: null
+      countdownTime: null,
+      timeData: 0
     }
   },
-  components: {},
-  created () {
-
-  },
   mounted () {
-    this.$nextTick(function () {
+    this.$nextTick(() => {
       this.setTime(this.endTime)
     })
   },
@@ -50,6 +47,11 @@ export default {
   },
   beforeDestroy () {
     clearInterval(this.countdownTime)
+  },
+  watch: {
+    endTime (n) {
+      this.setTime(n)
+    }
   }
 }
 </script>
@@ -57,7 +59,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" type="text/less" scoped>
   .countDown {
-    font-size: 20px;
+    font-size: 20px !important;
     display: flex;
     justify-content: flex-start;
     align-items: center;

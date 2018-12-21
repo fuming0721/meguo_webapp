@@ -6,7 +6,7 @@
     <div class="rankingList">
       <goods-item-grid class="rankingItem" v-for="(item, index) in volumeRank" :key="index" :item="item">
         <p class="volume" slot="volume">已售{{item.extension.volume | over10000}}件</p>
-        <div class="tag" slot="tag">Top.{{index + 1}}</div>
+        <tag-ranking slot="tag" :index="index + 1" v-if="index < 10" />
         <!--<div class="couponNum" slot="coupon" v-if="title=='大额券'">-->
           <!--<img src="@/assets/images/ticket.png" alt="">-->
           <!--<span class="couponText">{{item.extension.yhq_amount | formatnum}}元券</span>-->
@@ -21,6 +21,7 @@
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
 import GoodsItemGrid from '@/components/GoodsItemGrid'
+import tagRanking from '@/components/TagRanking'
 export default {
   props: {
     title: {
@@ -37,7 +38,8 @@ export default {
   },
   components: {
     HeaderTitle,
-    GoodsItemGrid
+    GoodsItemGrid,
+    tagRanking
   },
   methods: {
     seeMore () {
@@ -98,38 +100,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  .tag {
-    position: absolute;
-    top: 0;
-    left: -8px;
-    font-size: 20px;
-    width: 45%;
-    height: 28px;
-    color: #fff;
-    background: -moz-linear-gradient(left, #FF7502 0%, #FF0100 100%);
-    background: -webkit-linear-gradient(left, #FF7502 0%, #FF0100 100%);
-    background: -o-linear-gradient(left, #FF7502 0%, #FF0100 100%);
-    background: -ms-linear-gradient(left, #FF7502 0%, #FF0100 100%);
-    background: linear-gradient(to right, #FF7502 0%, #FF0100 100%);
-    display: flex;
-    align-items: center;
-    padding-left: 8px;
-    box-sizing: border-box;
-    border-radius: 0 28px 28px 0;
-
-    &::after {
-      content: '';
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 0 8px 8px 0;
-      border-color: transparent #ff7402 transparent transparent;
-      top: 28px;
-      left: 0px;
-      position: absolute;
-    }
   }
 
   .volume {

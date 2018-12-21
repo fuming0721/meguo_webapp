@@ -1,11 +1,13 @@
 <template>
   <div class="goodsList">
-    <van-tabs :line-width="100" @click="tabChange">
+    <van-tabs :line-width="100" @click="tabChange" :swipe-threshold="4">
       <van-tab v-for="(item, index) in menuIcons" :key="index" :title="item.id.toString()">
         <span slot="title" class="navItemName">{{item.name}}</span>
       </van-tab>
     </van-tabs>
-    <goods-list-vertical :pramas="{cid: activeId, channel: 5}" :getDataName="getDataName"></goods-list-vertical>
+    <goods-list-vertical fetch="goodsList" :pramas="pramas" @done="onDone">
+      <goods-item v-for="(item, index) in goodsList" :key="index" :item="item" :index="index" />
+    </goods-list-vertical>
   </div>
 </template>
 
@@ -13,8 +15,11 @@
 export default {
   data () {
     return {
-      activeId: '0',
-      getDataName: 'goodList'
+      pramas: {
+        cid: '0',
+        channel: 5
+      },
+      goodsList: []
     }
   },
   mounted () {
@@ -22,7 +27,10 @@ export default {
   },
   methods: {
     tabChange (index, id) {
-      this.activeId = id
+      this.pramas.cid = id
+    },
+    onDone (data) {
+      this.goodsList = data
     }
   },
   computed: {

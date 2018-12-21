@@ -4,6 +4,7 @@
       <router-view class="routerView"></router-view>
     </keep-alive>
     <footer-nav v-if="$route.meta.showTabbar"/>
+    <back-top />
   </div>
 </template>
 
@@ -23,7 +24,4 @@ export default {
   @import "assets/style/fonts/iconfont.css";
   @import "assets/style/reset.less";
   @import "assets/style/common.less";
-  .routerView{
-    min-height: 100vh;
-  }
 </style>

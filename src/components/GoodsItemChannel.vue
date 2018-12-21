@@ -2,9 +2,10 @@
   <li class="goods_item" @click="toDetail">
     <div class="goods_item_left">
       <img v-lazy="item.thread_img" alt="">
-      <span class="goodsItem_tag" v-if="item.extension.activity_id!=0">{{item.extension.activity_id | activity_type}}</span>
-      <span class="album_num" v-if="item.album">{{item.album.album_num}}款</span>
-      <icon name="haveVideo" class="video_link" />
+      <slot name="activity_type"></slot>
+      <slot name="ranking"></slot>
+      <slot name="forMoney"></slot>
+      <icon name="haveVideo" class="video_link"/>
     </div>
     <div class="goods_item_right">
       <div class="goodsItem_right_title">
@@ -12,26 +13,24 @@
         <span>{{item.title}}</span>
       </div>
       <div class="couponbox">
-        <div class="priceBox">
-          <span class="priceBox_title">券后价￥</span>
-          <span class="priceNum">{{item.extension.price | formatMoney}}</span>
-        </div>
         <div class="cunpon2" v-if="item.extension.yhq_amount > 0">
           <img src="@/assets/images/conpunTicket.png" alt="">
           <div>{{item.extension.yhq_amount | formatnum}}元券</div>
         </div>
+        <div v-else></div>  <!--flex占位-->
+        <slot name="subContent"></slot>
       </div>
       <div class="volume">
         <del>￥{{item.extension.origin_price | formatMoney}}</del>
-        <div>已售{{item.extension.volume | over10000}}件</div>
+        <div v-if="timeStatus !== '即将开始'">已售{{item.extension.volume | over10000}}件</div>
       </div>
       <div class="moreInfo">
-        <button class="enterAlbum" v-if="item.album">立即购买</button>
-        <div class="vipBox" v-else>
-          <tag-price type="vip">自买省￥{{item.extension.commission | formatMoney}}</tag-price>
-          <tag-price type="svip">升级省￥2.9</tag-price>
+        <div class="priceBox">
+          <span class="priceBox_title">券后价￥</span>
+          <span class="priceNum">{{item.extension.price | formatMoney}}</span>
         </div>
-        <van-icon name="star-o" class="collection" />
+        <button class="notBegin" v-if="timeStatus == '即将开始'">即将开始</button>
+        <slot name="buyBtn" v-else></slot>
       </div>
     </div>
   </li>
@@ -42,17 +41,20 @@ export default {
     item: {
       type: Object,
       default: () => {}
+    },
+    timeStatus: {
+      type: String
     }
   },
   methods: {
     toDetail () {
-      this.item.album ? this.$router.push({ path: 'album',
-        query: {
-          id: this.item.id,
-          title: this.item.album.album_title,
-          album_cover_img: this.item.album.album_cover_img
+      if (this.timeStatus !== '即将开始') {
+        if (this.$deviceType.isMeguoApp) {
+          this.$bridge.callhandler('seeDetail', this.item.id)
+        } else {
+          this.$router.push({ path: '/detail/' + this.item.id })
         }
-      }) : this.$router.push({ path: '/detail/' + this.item.id })
+      }
     }
   }
 }
@@ -179,11 +181,11 @@ export default {
     height: 32px;
     line-height: 34px;
     top: 0px;
-    left: 4px;
+    left: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #FF9D5C;
+    color: @orange_ticket;
   }
   .volume {
     width: 100%;
@@ -215,5 +217,26 @@ export default {
     color: #fff;
     background-color: @base_font_color;
     border-radius: 8px;
+  }
+  .buyNow, .notBegin {
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    background-color: @base_font_color;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+  }
+  .notBegin{
+    background-color: @base_not_begin;
+  }
+  .brief{
+    font-size: 28px;
+    color: @base_font_color;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 320px;
   }
 </style>

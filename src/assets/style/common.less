@@ -60,7 +60,59 @@
   line-height: 100px !important;
   position: relative;
 }
-.van-tab:first-child{
-  position: sticky;
-  left: 0px;
+
+.NavBarInApp{
+  padding-top: 0 !important;
+}
+.routerView{
+  min-height: 100vh;
+}
+.timeNav {
+  position: sticky !important;
+  top: 0;
+  z-index: 1000;
+  .van-tabs__wrap{
+    height: 100px !important;
+  }
+  .van-tab{
+    background-color: transparent;
+  }
+  .van-tabs{
+    padding-top: 100px !important;
+  }
+}
+.van-overlay{
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+.timeBuyTimeNav{
+  .van-tabs__nav {
+    background: -moz-linear-gradient(left, #FF8866 0%, #DD2D1A 100%);
+    background: -webkit-linear-gradient(left, #FF8866 0%, #DD2D1A 100%);
+    background: -o-linear-gradient(left, #FF8866 0%, #DD2D1A 100%);
+    background: -ms-linear-gradient(left, #FF8866 0%, #DD2D1A 100%);
+    background: linear-gradient(to right, #FF8866 0%, #DD2D1A 100%);
+  }
+  .van-tab--active{
+    background: -moz-linear-gradient(top, #F76B1C 0%, #FAD961 100%);
+    background: -webkit-linear-gradient(top, #F76B1C 0%, #FAD961 100%);
+    background: -o-linear-gradient(top, #F76B1C 0%, #FAD961 100%);
+    background: -ms-linear-gradient(top, #F76B1C 0%, #FAD961 100%);
+    background: linear-gradient(to bottom, #F76B1C 0%, #FAD961 100%);
+  }
+}
+.halfOffTimeNav{
+  .van-tabs__nav {
+    background: -moz-linear-gradient(left, #C86DD7 0%, #3023AE 100%);
+    background: -webkit-linear-gradient(left, #C86DD7 0%, #3023AE 100%);
+    background: -o-linear-gradient(left, #C86DD7 0%, #3023AE 100%);
+    background: -ms-linear-gradient(left, #C86DD7 0%, #3023AE 100%);
+    background: linear-gradient(to right, #C86DD7 0%, #3023AE 100%);
+  }
+  .van-tab--active{
+    background: -moz-linear-gradient(top, #C86DD7 0%, #7243BF 100%);
+    background: -webkit-linear-gradient(top, #C86DD7 0%, #7243BF 100%);
+    background: -o-linear-gradient(top, #C86DD7 0%, #7243BF 100%);
+    background: -ms-linear-gradient(top, #C86DD7 0%, #7243BF 100%);
+    background: linear-gradient(to bottom, #C86DD7 0%, #7243BF 100%);
+  }
 }

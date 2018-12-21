@@ -1,5 +1,5 @@
 <template>
-  <div class="tag_item" :class="{vipTag: type==='vip', svipTag: type==='svip'}">
+  <div class="tag_item" :class="{vipTag: type==='vip' || type==='share', svipTag: type==='svip'}">
     <slot></slot>
   </div>
 </template>
@@ -26,6 +26,9 @@ export default {
     justify-content: center;
     align-items: center;
     margin-right: 10px;
+    &:last-child{
+      margin-right: 0;
+    }
   }
   .vipTag{
      background: -moz-linear-gradient(left, #FAD961 0%, #FF5C00 100%);

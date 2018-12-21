@@ -5,11 +5,11 @@
     </template>
     <template v-if="isOver8">
       <li class="arrowLi" v-if="showNum > 7" @click="showNum = 7">
-        <van-icon class="arrow" name="arrow-left"></van-icon>
+        <van-icon class="arrow" name="arrow-left" />
         <span>收起</span>
       </li>
       <li class="arrowLi" v-else @click="showNum = 100">
-        <van-icon class="arrow" name="arrow"></van-icon>
+        <van-icon class="arrow" name="arrow" />
         <span>展开</span>
       </li>
     </template>

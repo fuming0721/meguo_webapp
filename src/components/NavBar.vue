@@ -1,7 +1,7 @@
 <template>
-  <div class="navBar positionCenter">
-    <van-icon name="arrow-left" class="navBar_left" @click="back"></van-icon>
-    <p class="navBar_title">{{title}}</p>
+  <div class="navBar positionCenter" v-if="!$deviceType.isMeguoApp">
+    <van-icon name="arrow-left" class="navBar_left" @click="back" />
+    <p class="navBar_title">{{$route.meta.title || $route.query.title || title}}</p>
     <div class="navBar_right" @click="navBar_right_click"></div>
   </div>
 </template>

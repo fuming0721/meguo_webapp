@@ -4,7 +4,7 @@
       <nav class="listPage_nav">
         <img src="@/assets/images/v4_baicai.png" alt="">
       </nav>
-      <top-search class="top-search"></top-search>
+      <top-search class="top-search" />
       <ul class="listPage_ul">
         <router-link :key="index" tag="li" :to="item.path" class="listPage_topitem" v-for="(item, index) in randomADlist">
           <img :src="item.picUrl" alt="">
@@ -17,7 +17,9 @@
         <span slot="title" class="navItemName">{{item.name}}</span>
       </van-tab>
     </van-tabs>
-    <goods-list-vertical :pramas="pramas" :getDataName="getDataName"></goods-list-vertical>
+    <goods-list-vertical fetch="goodsList" :pramas="pramas" @done="onDone">
+      <goods-item v-for="(item, index) in goodsList" :key="index" :item="item" :index="index" />
+    </goods-list-vertical>
   </div>
 </template>
 
@@ -39,7 +41,7 @@ export default {
       pramas: {
         price: 1
       },
-      getDataName: 'goodList',
+      goodsList: [],
       adList: [
         {
           picUrl: 'https://img.alicdn.com/imgextra/i2/62752115/TB2t5vNxbGYBuNjy0FoXXciBFXa-62752115.png',
@@ -109,6 +111,9 @@ export default {
         newArray.splice(r, 1)
       }
       return valArray
+    },
+    onDone (data) {
+      this.goodsList = data
     }
   },
   computed: {

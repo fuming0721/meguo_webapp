@@ -18,7 +18,7 @@ export default {
   computed: {
     showTop () {
       // eslint-disable-next-line
-      return this.scrollTop > 800 ? true : false
+      return this.scrollTop > 1600 ? true : false
     }
   },
   mounted () {
@@ -36,7 +36,7 @@ export default {
       this.time = setInterval(() => { this.gotoTop(this.scrollTop - this.dParams) })
     },
     gotoTop (distance) {
-      this.dParams += 80
+      this.dParams += 60
       distance = distance > 0 ? distance : 0
       document.documentElement.scrollTop = document.body.scrollTop = window.pageYOffset = distance
       if (this.scrollTop < 10) {
@@ -61,7 +61,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(204, 184, 184, 0.5);
   }

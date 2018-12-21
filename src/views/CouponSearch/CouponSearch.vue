@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <menu-list></menu-list>
+    <menu-list />
   </div>
 </template>
 

@@ -46,22 +46,16 @@ export default {
   },
   methods: {
     doFetch () {
-      //      const toast = this.$toast.loading({
-      //        duration: 0,
-      //        forbidClick: true,
-      //        loadingType: 'spinner',
-      //        message: '加载中...',
-      //        mask: true
-      //      })
+      this.$toast.loading('加载中。。')
       this.loading = true
       this.$api(this.fetch, this.params)
         .then(response => {
-          //          toast.clear()
+          this.$toast.clear()
           this.loading = false
           this.$emit('done', response)
         })
         .catch(error => {
-          //          toast.clear()
+          this.$toast.clear()
           this.loading = false
           this.error = '数据获取失败，请重试！'
           this.$emit('fail', error)

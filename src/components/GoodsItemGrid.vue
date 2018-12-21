@@ -1,5 +1,5 @@
 <template>
-  <div class="goodsElement" @click="seeDetail">
+  <div class="goodsElement" @click="seeDetail" v-if="item">
     <div class="goodsElement_imgBox">
       <img class="ele_img" v-if="item" v-lazy="item.thread_img" alt="">
       <slot name="coupon"></slot>

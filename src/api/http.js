@@ -15,7 +15,6 @@ let removePending = (config) => {
     }
   }
 }
-
 axios.interceptors.request.use(
   config => {
     removePending(config) // 取消重复请求

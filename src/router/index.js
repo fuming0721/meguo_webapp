@@ -42,15 +42,16 @@ const router = new Router({
       component: () => import('@/views/My/My.vue')
     },
     {
-      path: '/detail',
+      path: '/detail/:id',
       name: 'detail',
-      meta: { rank: 10, title: '详情页' },
+      props: true,
+      meta: { rank: 10, title: '详情' },
       component: () => import('@/views/Detail/Detail.vue')
     },
     {
       path: '/album',
       name: 'album',
-      meta: { rank: 2, title: '专辑' },
+      meta: { rank: 2 },
       component: () => import('@/views/Album/Album.vue')
     },
     {
@@ -64,6 +65,24 @@ const router = new Router({
       name: 'subcategory',
       meta: { rank: 3 },
       component: () => import('@/views/Category_sub/SubCategory.vue')
+    },
+    {
+      path: '/timebuy',
+      name: 'timebuy',
+      meta: { rank: 2, title: '限时抢购' },
+      component: () => import('@/views/h5_timeBuy/TimeBuy.vue')
+    },
+    {
+      path: '/halfoff',
+      name: 'halfoff',
+      meta: { rank: 2, title: '半价抢购' },
+      component: () => import('@/views/h5_HalfOff/HalfOff.vue')
+    },
+    {
+      path: '/bigcoupon',
+      name: 'bigCoupon',
+      meta: { rank: 2, title: '大额优惠券' },
+      component: () => import('@/views/h5_BigCoupon/BigCoupon.vue')
     }
   ],
   scrollBehavior (to, from, savedPosition) {

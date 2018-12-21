@@ -6,7 +6,6 @@
     <today-must-browse class="today-must-browse" :todayMustBrowseData="todayMustBrowse" @timeEnd="timeEnd" />
     <goods-list-slider :volumeRank="volumeRank" title="销量排行" />
     <goods-category-nav-page />
-    <back-top />
   </loading-container>
 </template>
 

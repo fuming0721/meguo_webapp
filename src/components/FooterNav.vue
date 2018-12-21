@@ -36,7 +36,7 @@
     bottom: 0;
     left: 0;
     display: flex;
-    z-index: 10000;
+    z-index: 1000;
     justify-content: space-between;
     background-color: #fff;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
