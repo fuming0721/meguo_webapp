@@ -1,12 +1,24 @@
 <template>
-  <div class="searchLink">
+  <div class="searchLink" @click="toSearch">
     <div class="topSearchCenter">
       <van-icon name="search" color="#aaa"/>
       <p class="searchText">搜索您想要的优惠商品</p>
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  methods: {
+    toSearch () {
+      if (this.$deviceType.isMeguoApp) {
+        this.$bridge.callhandler('searchPage')
+      } else {
+        this.$router.push('/searchPage')
+      }
+    }
+  }
+}
+</script>
 <style lang="less" type="text/less" scoped>
   .searchLink{
     top: 0;

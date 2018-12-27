@@ -83,6 +83,72 @@ const router = new Router({
       name: 'bigCoupon',
       meta: { rank: 2, title: '大额优惠券' },
       component: () => import('@/views/h5_BigCoupon/BigCoupon.vue')
+    },
+    {
+      path: '/bestgoods',
+      name: 'bestgoods',
+      meta: { rank: 2, title: '聚好货' },
+      component: () => import('@/views/h5_BestGoods/BestGoods.vue')
+    },
+    {
+      path: '/coupongettingranking',
+      name: 'coupongettingranking',
+      meta: { rank: 2, title: '领券排行' },
+      component: () => import('@/views/h5_CouponGetingRanking/CouponGettingRanking.vue')
+    },
+    {
+      path: '/volumeranking',
+      name: 'volumeranking',
+      meta: { rank: 2, title: '热卖排行榜' },
+      component: () => import('@/views/h5_VolumeRanking/VolumeRanking.vue')
+    },
+    {
+      path: '/app_home',
+      name: 'app_home',
+      meta: { rank: 1, title: 'app首页' },
+      component: () => import('@/views/onlyApp/appHomePage/AppHomePage.vue')
+    },
+    {
+      path: '/app_ju_money',
+      name: 'app_ju_money',
+      meta: { rank: 1, title: '聚赚钱' },
+      component: () => import('@/views/onlyApp/appJuMoney/AppJuMoney.vue')
+    },
+    {
+      path: '/vipprivilege',
+      name: 'vipprivilege',
+      meta: { rank: 10, title: '会员特权', requiresAuth: true },
+      component: () => import('@/views/h5_VipPrivilege/VipPrivilege.vue')
+    },
+    {
+      path: '/customerservice',
+      name: 'customerservice',
+      meta: { rank: 10, title: '客服帮助' },
+      component: () => import('@/views/h5_CustomerService/CustomerService.vue')
+    },
+    {
+      path: '/invite',
+      name: 'invite',
+      meta: { rank: 10, title: '邀请赚', requiresAuth: true },
+      component: () => import('@/views/h5_Invite/Invite.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      meta: { rank: 11, title: '登录' },
+      component: () => import('@/views/Login/Login.vue')
+    },
+    {
+      path: '/lottery',
+      name: 'lottery',
+      meta: { rank: 10, title: '红包抽奖', requiresAuth: true },
+      component: () => import('@/views/h5_Lottery/PageLottery.vue')
+    },
+    {
+      path: '/download',
+      name: 'download',
+      meta: { title: '聚多多优惠APP官方下载' },
+      component: () => import('@/views/DownloadGuide/downloadGuide.vue')
     }
   ],
   scrollBehavior (to, from, savedPosition) {

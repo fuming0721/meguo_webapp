@@ -41,7 +41,7 @@ export default {
   },
   mounted () {
     this.$nextTick().then(() => {
-      this.navOffsetTop = document.querySelector('#goodsCotent').offsetTop
+      this.navOffsetTop = document.getElementById('goodsCotent').offsetTop
     })
   },
   methods: {
@@ -79,7 +79,7 @@ export default {
         this.dataList = []
         this.$emit('done', this.dataList)
         this.nextPage = 1
-        document.documentElement.scrollTop = this.navOffsetTop - 160
+        document.documentElement.scrollTop = 1470
         this.getGoodsList()
       },
       deep: true

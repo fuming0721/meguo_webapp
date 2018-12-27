@@ -1,23 +1,22 @@
 <template>
   <loading-container fetch="getHomeData" :params="params" @done="onDone">
-    <top-search class="top-search" />
+    <top-search class="top-search"/>
     <sweiper :swiperImgs="swiperImgs" />
     <icon-nav />
     <today-must-browse class="today-must-browse" :todayMustBrowseData="todayMustBrowse" @timeEnd="timeEnd" />
-    <goods-list-slider :volumeRank="volumeRank" title="销量排行" />
+    <goods-list-slider :dataList="volumeRank" title="销量排行" @seeMore="seeMore"/>
     <goods-category-nav-page />
   </loading-container>
 </template>
 
 <script>
 import Sweiper from './children/Swiper'
-import IconNav from './children/IconNav'
+import IconNav from '@/components/IconNav'
 import TopSearch from '@/components/searchLink'
 import TodayMustBrowse from './children/TodayMustBrowse'
-import GoodsListSlider from './children/GoodsListSlider'
+import GoodsListSlider from '@/components/GoodsListSlider'
 import GoodsCategoryNavPage from './children/GoodsCategoryNavPage'
 export default {
-  name: 'home',
   components: {
     Sweiper,
     TopSearch,
@@ -42,6 +41,9 @@ export default {
     },
     timeEnd () {
       console.log('倒计时结束')
+    },
+    seeMore () {
+      this.$router.push('/volumeranking')
     }
   }
 }

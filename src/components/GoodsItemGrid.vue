@@ -21,7 +21,11 @@ export default {
   },
   methods: {
     seeDetail () {
-      // this.$bridge.callhandler('seeDetail', this.item.id)
+      if (this.$deviceType.isMeguoApp) {
+        this.$bridge.callhandler('seeDetail', this.item.id)
+      } else {
+        this.$router.push({ path: '/detail/' + this.item.id })
+      }
     }
   }
 }
@@ -43,5 +47,9 @@ export default {
   .ele_price{
     font-size: 22px;
     color: @base_font_color;
+  }
+  .ele_img{
+    width: 200px;
+    height: 200px;
   }
 </style>

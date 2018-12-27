@@ -1,5 +1,5 @@
 <template>
-  <div class="channelBox" :class="{NavBarInApp: $deviceType.isMeguoApp}">
+  <div class="channelBox">
     <nav-bar />
     <img class="banner" src="https://img.alicdn.com/imgextra/i4/62752115/O1CN01FY0rgX1RUi9tlPxvl-62752115.png" alt="">
     <van-tabs :line-width="100" @click="tabChange" :swipe-threshold="4">
@@ -10,9 +10,7 @@
     <goods-list-vertical fetch="bigCoupon" :pramas="pramas" @done="onDone">
       <goods-item-channel v-for="(item, index) in goodsList" :key="index" :item="item">
         <span class="goodsItem_tag" v-if="item.extension.activity_id!=0" slot="activity_type">{{item.extension.activity_id | activity_type}}</span>
-        <tag-price slot="subContent" type="share">
-          分享赚￥{{item.extension.commission | formatMoney}}
-        </tag-price>
+        <tag-price slot="subContent" :item="item.extension" v-if="item.extension" />
         <button class="buyNow" slot="buyBtn">立即购买</button>
       </goods-item-channel>
     </goods-list-vertical>

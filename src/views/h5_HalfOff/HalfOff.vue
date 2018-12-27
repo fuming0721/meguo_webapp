@@ -1,5 +1,5 @@
 <template>
-  <div class="channelBox" :class="{NavBarInApp: $deviceType.isMeguoApp}">
+  <div class="channelBox">
     <nav-bar />
     <img src="https://img.alicdn.com/imgextra/i1/62752115/O1CN01iRbxbL1RUi9mbHc6i-62752115.png" alt="">
     <template v-if="timeNavList.length">
@@ -9,7 +9,8 @@
           <span class="goodsItem_tag" v-if="item.extension.activity_id!=0" slot="activity_type">{{item.extension.activity_id | activity_type}}</span>
           <div slot="subContent" class="brief" type="share">{{item.extension.brief}}</div>
           <button class="buyNow" slot="buyBtn">去看看</button>
-          <tag-price slot="forMoney" class="forMoney" type="share">赚￥{{item.extension.commission | formatMoney}}</tag-price>
+          <!--<tag-price slot="forMoney" class="forMoney" type="share">赚￥{{item.extension.commission | formatMoney}}</tag-price>-->
+          <tag-price slot="forMoney" class="forMoney" :item="item.extension" v-if="item.extension" />
         </goods-item-channel>
       </goods-list-vertical>
     </template>
@@ -41,6 +42,7 @@ export default {
   },
   methods: {
     getTimeNav () {
+      this.$showLoading()
       this.$api('halfOffTimeStatus').then(({ data }) => {
         if (data.success) {
           this.timeNavList = data.result

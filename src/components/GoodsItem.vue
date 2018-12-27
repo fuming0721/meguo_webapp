@@ -4,7 +4,7 @@
       <img v-lazy="item.thread_img" alt="">
       <span class="goodsItem_tag" v-if="item.extension.activity_id!=0">{{item.extension.activity_id | activity_type}}</span>
       <span class="album_num" v-if="item.album">{{item.album.album_num}}款</span>
-      <icon name="haveVideo" class="video_link" />
+      <icon name="haveVideo" class="video_link" v-if="item.is_video != 0" />
     </div>
     <div class="goods_item_right">
       <div class="goodsItem_right_title">
@@ -26,12 +26,12 @@
         <div>已售{{item.extension.volume | over10000}}件</div>
       </div>
       <div class="moreInfo">
-        <button class="enterAlbum" v-if="item.album">立即购买</button>
-        <div class="vipBox" v-else>
-          <tag-price type="vip">自买省￥{{item.extension.commission | formatMoney}}</tag-price>
-          <tag-price type="svip">升级省￥2.9</tag-price>
+        <div class="vipBox" v-if="$auth.userInfo.success && $auth.userInfo && ($auth.userInfo.memberLevel == 3 || $auth.userInfo.memberLevel == 2)"> <!--白金-->
+          <tag-price :item="item.extension" v-if="item.extension" />
+          <tag-price :item="item.extension" v-if="item.extension" type="ifSvip" />
         </div>
-        <van-icon name="star-o" class="collection" />
+        <button class="enterAlbum" v-else>立即购买</button>   <!--普通-->
+        <van-icon name="star-o" v-if="!item.album" class="collection" :class="{is_favorite: item.is_favorite}" @click.stop="collection" />
       </div>
     </div>
   </li>
@@ -46,13 +46,26 @@ export default {
   },
   methods: {
     toDetail () {
-      this.item.album ? this.$router.push({ path: 'album',
-        query: {
-          id: this.item.id,
-          title: this.item.album.album_title,
-          album_cover_img: this.item.album.album_cover_img
+      if (this.$deviceType.isMeguoApp) {
+        this.$bridge.callhandler('seeDetail', this.item.id)
+      } else {
+        this.item.album ? this.$router.push({ path: 'album',
+          query: {
+            id: this.item.id,
+            title: this.item.album.album_title,
+            album_cover_img: this.item.album.album_cover_img
+          }
+        }) : this.$router.push({ path: '/detail/' + this.item.id })
+      }
+    },
+    collection () {
+      if (this.$deviceType.isMeguoApp) {
+        if (this.$auth.userInfo.success) {
+          this.$bridge.callhandler('collectionGoos', this.item.id)
+        } else {
+          this.$bridge.callhandler('login')
         }
-      }) : this.$router.push({ path: '/detail/' + this.item.id })
+      }
     }
   }
 }
@@ -207,6 +220,9 @@ export default {
   }
   .collection{
     font-size: 32px;
+  }
+  .collection.is_favorite {
+    color: @base_font_color;
   }
   .enterAlbum{
     width: 120px;

@@ -34,6 +34,6 @@ export default {
     margin-top: 20px;
   }
   .goodsType_icon{
-    width: 96px;
+    width: 80px;
   }
 </style>

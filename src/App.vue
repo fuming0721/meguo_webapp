@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <keep-alive>
-      <router-view class="routerView"></router-view>
+      <router-view class="routerView" :class="{NavBarInApp: $deviceType.isMeguoApp, isAboveIhphoneX: $deviceType.isAboveIPhoneX}"></router-view>
     </keep-alive>
     <footer-nav v-if="$route.meta.showTabbar"/>
     <back-top />

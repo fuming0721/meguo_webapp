@@ -3,9 +3,9 @@
     <div class="goods_item_left">
       <img v-lazy="item.thread_img" alt="">
       <slot name="activity_type"></slot>
-      <slot name="ranking"></slot>
+      <slot name="rankingTag"></slot>
       <slot name="forMoney"></slot>
-      <icon name="haveVideo" class="video_link"/>
+      <icon name="haveVideo" class="video_link" v-if="item.is_video != 0" />
     </div>
     <div class="goods_item_right">
       <div class="goodsItem_right_title">
@@ -17,16 +17,17 @@
           <img src="@/assets/images/conpunTicket.png" alt="">
           <div>{{item.extension.yhq_amount | formatnum}}元券</div>
         </div>
-        <div v-else></div>  <!--flex占位-->
+        <div v-else-if="$route.name!=='halfoff'"></div>  <!--flex占位-->
         <slot name="subContent"></slot>
       </div>
       <div class="volume">
         <del>￥{{item.extension.origin_price | formatMoney}}</del>
-        <div v-if="timeStatus !== '即将开始'">已售{{item.extension.volume | over10000}}件</div>
+        <div v-if="timeStatus !== '即将开始' && $route.name!=='volumeranking'">已售{{item.extension.volume | over10000}}件</div>
       </div>
       <div class="moreInfo">
         <div class="priceBox">
-          <span class="priceBox_title">券后价￥</span>
+          <span class="priceBox_title">
+            <template v-if="item.extension.yhq_amount > 0">券后价</template>￥</span>
           <span class="priceNum">{{item.extension.price | formatMoney}}</span>
         </div>
         <button class="notBegin" v-if="timeStatus == '即将开始'">即将开始</button>
@@ -238,5 +239,20 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 320px;
+  }
+  .couponReceivedNum{
+    font-size: 18px;
+    height: 28px;
+    width: 160px;
+    border-radius: 14px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: -moz-linear-gradient(left, #FF7502 0%, #FF0100 100%);
+    background: -webkit-linear-gradient(left, #FF7502 0%, #FF0100 100%);
+    background: -o-linear-gradient(left, #FF7502 0%, #FF0100 100%);
+    background: -ms-linear-gradient(left, #FF7502 0%, #FF0100 100%);
+    background: linear-gradient(to right, #FF7502 0%, #FF0100 100%);
   }
 </style>

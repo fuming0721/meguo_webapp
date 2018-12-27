@@ -5,7 +5,7 @@
     </header-title>
     <div class="today-must-browse-content">
       <div class="app_table">
-        <div class="app_table_left">
+        <div class="app_table_left" @click="toCheap">
           <div class="item_name">9.9包邮</div>
           <van-swipe :autoplay="5000" :width="320" :show-indicators="false" :touchable="false">
             <van-swipe-item class="swiperItem" v-for="(item, index) in nine" :key="index">
@@ -13,7 +13,7 @@
               <div class="app_goods_info">
                 <div class="app_price_info">
                   <p class="app_goods_price">￥{{item.extension['price'] | formatMoney}}</p>
-                  <span class="app_view" @click="jump(item.id)">查看</span>
+                  <span class="app_view">查看</span>
                 </div>
                 <div class="app_imgBox">
                   <img :src="item.thread_img" alt="" class="app_goodsImg">
@@ -22,36 +22,36 @@
             </van-swipe-item>
           </van-swipe>
         </div>
-        <ul class="app_table_right" v-if="timeBuy">
+        <router-link tag="ul" class="app_table_right" v-if="timeBuy" to="/timebuy">
           <li class="item_name">限时购 <span class="time_title">| {{timePoint}}点场</span></li>
           <li class="app_table_item1">
             <countdown :endTime="timeBuy.end_time" @clear="timeEnd()"></countdown>
             <div class="app_goods_info">
               <div class="app_price_info">
                 <p class="app_goods_price">￥{{timeBuy.extension.price | formatMoney}}</p>
-                <span class="app_view" @click="jump(timeBuy.id)">抢购</span>
+                <span class="app_view">抢购</span>
               </div>
               <div class="app_imgBox">
                 <img :src="timeBuy.thread_img" alt="" class="app_goodsImg">
               </div>
             </div>
           </li>
-        </ul>
+        </router-link>
       </div>
 
-      <div class="app_table_bottom">
-        <div class="app_table_item2 table2">
+      <div class="app_table_bottom" >
+        <router-link tag="div" to="/bestgoods" class="app_table_item2 table2" >
           <p>聚好货</p>
           <goods-item-grid :item="collection" />
-        </div>
-        <div class="app_table_item2 table2">
+        </router-link>
+        <router-link tag="div" to="/halfoff" class="app_table_item2 table2">
           <p>每日半价</p>
           <goods-item-grid :item="halfPrice" />
-        </div>
-        <div class="app_table_item2">
-          <p>种草甄选</p>
+        </router-link>
+        <router-link tag="div" to="/coupongettingranking" class="app_table_item2">
+          <p>领券排行</p>
           <goods-item-grid :item="couponRank" />
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -82,19 +82,13 @@ export default {
     GoodsItemGrid,
     countdown
   },
-  created () {
-
-  },
-  mounted () {
-    this.$nextTick(() => {
-    })
-  },
   methods: {
-    jump (id) {
-      this.$bridge.callhandler('seeDetail', id)
-    },
-    timeEnd () {
-      this.$emit('timeEnd')
+    toCheap () {
+      if (this.$deviceType.isMeguoApp) {
+        this.$bridge.callhandler('seeCheap')
+      } else {
+        this.$router.push('/baoyou')
+      }
     }
   },
   computed: {

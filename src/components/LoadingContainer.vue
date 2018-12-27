@@ -32,7 +32,6 @@ export default {
   watch: {
     params: {
       handler (v, o) {
-        console.log(v === o)
         this.doFetch()
       },
       deep: true
@@ -46,16 +45,14 @@ export default {
   },
   methods: {
     doFetch () {
-      this.$toast.loading('加载中。。')
+      this.$showLoading()
       this.loading = true
       this.$api(this.fetch, this.params)
         .then(response => {
-          this.$toast.clear()
           this.loading = false
           this.$emit('done', response)
         })
         .catch(error => {
-          this.$toast.clear()
           this.loading = false
           this.error = '数据获取失败，请重试！'
           this.$emit('fail', error)

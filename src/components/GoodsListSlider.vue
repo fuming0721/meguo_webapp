@@ -4,13 +4,14 @@
       <div class="more" @click="seeMore">查看更多 <van-icon name="arrow" /></div>
     </header-title>
     <div class="rankingList">
-      <goods-item-grid class="rankingItem" v-for="(item, index) in volumeRank" :key="index" :item="item">
+      <goods-item-grid class="rankingItem" v-for="(item, index) in dataList" :key="index" :item="item">
         <p class="volume" slot="volume">已售{{item.extension.volume | over10000}}件</p>
-        <tag-ranking slot="tag" :index="index + 1" v-if="index < 10" />
-        <!--<div class="couponNum" slot="coupon" v-if="title=='大额券'">-->
-          <!--<img src="@/assets/images/ticket.png" alt="">-->
-          <!--<span class="couponText">{{item.extension.yhq_amount | formatnum}}元券</span>-->
-        <!--</div>-->
+        <tag-ranking slot="tag" :index="index + 1" v-if="index < 10 && title != '大额券'" />
+        <div class="couponNum" slot="coupon" v-if="title=='大额券'">
+          <div class="couponNumCenter">
+            <div class="couponText">{{item.extension.yhq_amount | formatnum}}元券</div>
+          </div>
+        </div>
       </goods-item-grid>
       <div class="moreLi" @click="seeMore">查看<br>更多</div>
       <div class="lineHH"></div>
@@ -19,16 +20,16 @@
 </template>
 
 <script>
-import HeaderTitle from '@/components/HeaderTitle'
-import GoodsItemGrid from '@/components/GoodsItemGrid'
-import tagRanking from '@/components/TagRanking'
+import HeaderTitle from './HeaderTitle'
+import GoodsItemGrid from './GoodsItemGrid'
+import tagRanking from './TagRanking'
 export default {
   props: {
     title: {
       require: true,
       type: String
     },
-    volumeRank: {
+    dataList: {
       require: true,
       type: Array
     }
@@ -43,8 +44,7 @@ export default {
   },
   methods: {
     seeMore () {
-      // this.$emit('seeMore')
-      this.$toast('跳转')
+      this.$emit('seeMore')
     }
   }
 }
@@ -52,37 +52,29 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" type="text/less" scoped>
-  .couponNum > img {
-    width: 100%;
-    height: 32px;
-    line-height: 32px;
-  }
-
   .couponText {
     font-size: 20px;
-    position: absolute;
-    width: 100%;
+    color: #FF2400;
+  }
+  .couponNumCenter{
+    width: 120px;
     height: 32px;
-    line-height: 347px;
-    top: 0px;
-    left: 4px;
+    background-image: url("../assets/images/ticket.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #FF2400;
   }
   .couponNum {
     position: absolute;
-    width: 120px;
-    left: calc(50% - 54px);
+    width: 100%;
     height: 32px;
     bottom: 4px;
-    font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
   .lineHH {
     width: 2px;
     height: 100px;

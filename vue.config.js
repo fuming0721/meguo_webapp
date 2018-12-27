@@ -22,7 +22,7 @@ module.exports = {
           'toast-default-width': '180px',
           'toast-default-min-height': '180px',
           'toast-position-top-distance': '100px',
-          'toast-position-bottom-distance': '100px',
+          'toast-position-bottom-distance': '100px'
         }
       }
     }
@@ -41,17 +41,17 @@ module.exports = {
     'style-resources-loader': {
       preProcessor: 'less',
       patterns: [
-        path.resolve(__dirname, "src/assets/style/variables.less")
+        path.resolve(__dirname, 'src/assets/style/variables.less')
       ]
     }
   },
   devServer: {
-    open: true,
-    proxy: {
-      '/v2': {
-        target: 'http://api.dev.develop.miguo.cn',
-        changeOrigin: true
-      }
-    }
+    open: true
+    // proxy: {
+    //   '/api/v2': {
+    //     target: 'http://m.dev.develop.miguo.cn',
+    //     changeOrigin: true
+    //   }
+    // }
   }
 }

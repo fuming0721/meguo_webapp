@@ -1,6 +1,7 @@
-import { Notify } from 'vant'
+import { Notify, Toast } from 'vant'
 import axios from 'axios'
-axios.defaults.baseURL = `/v2`
+axios.defaults.baseURL = `http://m.dev.develop.miguo.cn/api/v2`
+// axios.defaults.baseURL = `/api/v2`
 // axios.defaults.baseURL = `https://m.meguo.com/api`
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 // 在实例已创建后修改默认值
@@ -30,15 +31,54 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   res => {
     removePending(res.config)
+    Toast.clear()
     return res
   },
   error => {
+    Toast.clear()
     if (error && error.response) {
-      console.log(error)
-      Notify(error.response.data.info)
+      switch (error.response.status) {
+        case 400:
+          Notify('错误请求')
+          break
+        case 401:
+          Notify('未授权，请重新登录')
+          break
+        case 403:
+          Notify('拒绝访问')
+          break
+        case 404:
+          Notify('请求错误,未找到该资源')
+          break
+        case 405:
+          Notify('请求方法未允许')
+          break
+        case 408:
+          Notify('请求超时')
+          break
+        case 500:
+          Notify('服务器端出错')
+          break
+        case 501:
+          Notify('网络未实现')
+          break
+        case 502:
+          Notify('网络错误')
+          break
+        case 503:
+          Notify('服务不可用')
+          break
+        case 504:
+          Notify('网络超时')
+          break
+        case 505:
+          Notify('http版本不支持该请求')
+          break
+        default:
+          Notify('连接错误')
+      }
     }
     return { data: { } }
   }
 )
-
 export default axios

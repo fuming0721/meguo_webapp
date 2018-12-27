@@ -1,0 +1,74 @@
+<template>
+  <div class="MyInvitationBox">
+    <table class="MyInvitation" v-if="myFansArr.length">
+      <tr>
+        <th>用户名</th>
+        <th>注册日期</th>
+      </tr>
+      <tr class="MyInvitationBody" v-for="(item, index) in myFansArr" :key="index">
+        <td>{{item.user_info.username}}</td>
+        <td>{{item.add_time | formatTime}}</td>
+      </tr>
+    </table>
+    <div v-else class="noSub">
+      暂时没有数据<br>
+      你还没有去邀请或者邀请后还没有用户注册
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      myFansArr: [],
+      parmas: {
+        type: 1
+      }
+    }
+  },
+  mounted () {
+    this.$nextTick().then(() => {
+      this.getFansList()
+    })
+  },
+  methods: {
+    async getFansList () {
+      const fansData = await this.$api('agent_fans', this.parmas)
+      this.myFansArr = fansData.data.result
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  .MyInvitation {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  th, td {
+    text-align: center;
+    font-size: 26px;
+    height: 80px;
+    line-height: 80px;
+    width: 50%;
+  }
+
+  .MyInvitationBody {
+    border-bottom: 2px solid #f2f2f2;
+    background-color: #fff;
+  }
+
+  .notLogin, .noSub {
+    height: 900px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 26px;
+    background-color: #fff;
+  }
+</style>

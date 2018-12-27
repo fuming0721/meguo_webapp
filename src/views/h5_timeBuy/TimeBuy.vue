@@ -1,14 +1,12 @@
 <template>
-  <div class="timeBuy" :class="{NavBarInApp: $deviceType.isMeguoApp}">
+  <div class="timeBuy">
     <nav-bar />
     <template v-if="timeNavList.length">
       <time-nav class="timeBuyTimeNav" :timeNavList="timeNavList" @getItemData="getItemData" @timeOver="getTimeNav" />
       <goods-list-vertical fetch="timeBuy" :pramas="goodListParams"  @done="onDone" >
         <goods-item-channel v-for="(item, index) in dataList" :key="index" :item="item" :timeStatus="timeStatus">
           <span class="goodsItem_tag" v-if="item.extension.activity_id!=0" slot="activity_type">{{item.extension.activity_id | activity_type}}</span>
-          <tag-price slot="subContent" type="share">
-            分享赚￥{{item.extension.commission | formatMoney}}
-          </tag-price>
+          <tag-price slot="subContent" :item="item.extension" v-if="item.extension" />
           <button class="buyNow" slot="buyBtn">立即抢</button>
         </goods-item-channel>
       </goods-list-vertical>
@@ -41,9 +39,8 @@ export default {
   },
   methods: {
     getTimeNav () {
-      this.$toast.loading('加载中。。')
+      this.$showLoading()
       this.$api('timeBuyTimeStatus').then(({ data }) => {
-        this.$toast.clear()
         if (data.success) {
           this.timeNavList = data.result
         } else {

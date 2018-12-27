@@ -1,14 +1,39 @@
 <template>
-  <div class="tag_item" :class="{vipTag: type==='vip' || type==='share', svipTag: type==='svip'}">
-    <slot></slot>
+  <div class="tag_box">
+    <div class="tag_item svipTag" v-if="vip && type=='ifSvip'">{{tagName}}{{item.black_commission | formatMoney}}</div>
+    <div class="tag_item vipTag" v-if="vip && type!='ifSvip'">{{tagName}}{{item.white_commission | formatMoney}}</div>
+    <div class="tag_item svipTag" v-if="svip && type!='ifSvip'">{{tagName}}{{item.white_commission | formatMoney}}</div>
   </div>
 </template>
 <script>
 export default {
   props: {
     type: {
-      require: true,
       type: String
+    },
+    item: {
+      require: true,
+      type: Object,
+      default: () => {}
+    }
+  },
+  mounted () {
+  },
+  computed: {
+    vip () {
+      // eslint-disable-next-line
+      return this.$auth.userInfo.success && this.$auth.userInfo && this.$auth.userInfo.memberLevel == 2 ? true : false
+    },
+    svip () {
+      // eslint-disable-next-line
+      return this.$auth.userInfo.success && this.$auth.userInfo && this.$auth.userInfo.memberLevel == 3 ? true : false
+    },
+    tagName () {
+      if (this.type === 'ifSvip') {
+        return this.$deviceType.isWeixin ? '升级省￥' : '升级赚￥'
+      } else {
+        return this.$deviceType.isWeixin ? '自买省￥' : '分享赚￥'
+      }
     }
   }
 }
@@ -16,6 +41,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" type="text/less" scoped>
+  .tag_box{
+    margin-right: 10px;
+    &:last-child{
+      margin-right: 0;
+    }
+  }
   .tag_item{
     width: 150px;
     height: 30px;
@@ -25,10 +56,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
-    &:last-child{
-      margin-right: 0;
-    }
   }
   .vipTag{
      background: -moz-linear-gradient(left, #FAD961 0%, #FF5C00 100%);

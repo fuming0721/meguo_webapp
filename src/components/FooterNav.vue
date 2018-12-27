@@ -1,33 +1,46 @@
 <template>
-  <div class="tabBar positionCenter">
-    <router-link class="tabbarItem" tag="button" to="/">
-      <img class="on" src="@/assets/images/tabbar/home(on)@2x.png" alt="">
-      <img class="off" src="@/assets/images/tabbar/home(off)@2x.png" alt="">
-      <p>首页</p>
-    </router-link>
-    <router-link class="tabbarItem" tag="button" to="/baoyou">
-      <img class="on" src="@/assets/images/tabbar/9.9(on)@2x.png" alt="">
-      <img class="off" src="@/assets/images/tabbar/9.9(off)@2x.png" alt="">
-      <p>9块9包邮</p>
-    </router-link>
-    <router-link class="tabbarItem" tag="button" to="/zhongcao">
-      <img class="on" src="@/assets/images/tabbar/my(on)@2x.png" alt="">
-      <img class="off" src="@/assets/images/tabbar/my(off)@2x.png" alt="">
-      <p>种草</p>
-    </router-link>
-    <router-link class="tabbarItem" tag="button" to="/couponsearch">
-      <img class="on" src="@/assets/images/tabbar/search(on)@2x.png" alt="">
-      <img class="off" src="@/assets/images/tabbar/search(off)@2x.png" alt="">
-      <p>搜券</p>
-    </router-link>
-    <router-link class="tabbarItem" tag="button" to="/my">
-      <img class="on" src="@/assets/images/tabbar/my(on)@2x.png" alt="">
-      <img class="off" src="@/assets/images/tabbar/my(off)@2x.png" alt="">
-      <p>我</p>
+  <div class="tabBar positionCenter" :class="{isAboveIhphoneX: $deviceType.isAboveIPhoneX}">
+    <router-link class="tabbarItem" tag="button" :to="item.url" v-for="(item, index) in list" :key="index">
+      <van-icon class-prefix="icon" :name="item.iconName" class="tabbarIcon" />
+      <p>{{item.name}}</p>
     </router-link>
   </div>
 </template>
-
+<script>
+export default {
+  data () {
+    return {
+      list: [
+        {
+          name: '首页',
+          url: '/',
+          iconName: 'tabbar_home'
+        },
+        {
+          name: '9块9',
+          url: '/baoyou',
+          iconName: 'tabbar_cheap'
+        },
+        {
+          name: '种草',
+          url: '/zhongcao',
+          iconName: 'tabbar_shopping'
+        },
+        {
+          name: '搜券',
+          url: '/couponsearch',
+          iconName: 'tabbar_search'
+        },
+        {
+          name: '我',
+          url: '/my',
+          iconName: 'tabbar_me'
+        }
+      ]
+    }
+  }
+}
+</script>
 <style lang="less" type="text/less" scoped>
   .tabBar{
     position: fixed;
@@ -41,17 +54,8 @@
     background-color: #fff;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
   }
-  .on{
-    display: none;
-  }
   .router-link-exact-active{
     color: @base_font_color;
-  }
-  .router-link-exact-active .on{
-    display: block !important;
-  }
-  .router-link-exact-active .off{
-    display: none;
   }
   .tabbarItem{
     display: flex;
@@ -60,9 +64,9 @@
     flex-direction: column;
     font-size: 20px;
     width: 20%;
-    &>img{
-      width: 30px;
-      margin-bottom: 10px;
-    }
+  }
+  .tabbarIcon{
+    font-size: 32px;
+    margin-bottom: 10px;
   }
 </style>

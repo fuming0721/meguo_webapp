@@ -10,5 +10,6 @@ export default {
   isiOSApp: !!nu.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) && nu.indexOf('MiGuo') > -1,
   iOSAppVersion: nu.match(/([^/]+)$/)[1],
   AndroidAppVersion: nu.match(/([^/]+)$/)[1],
-  isMeguoApp: nu.indexOf('MiGuo') > -1
+  isMeguoApp: nu.indexOf('MiGuo') > -1,
+  isAboveIPhoneX: !!nu.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) && window.screen.height >= 812 && window.screen.width >= 375
 }
