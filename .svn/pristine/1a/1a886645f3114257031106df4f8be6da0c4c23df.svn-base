@@ -1,0 +1,31 @@
+<template>
+  <div class="home">
+    <button @click="ass">安徽科技</button>
+  </div>
+</template>
+
+<script>
+import jsonp from 'jsonp'
+export default {
+  components: {
+  },
+  data () {
+    return {
+      num: 0
+    }
+  },
+  mounted () {
+    this.getList()
+  },
+  methods: {
+    getList () {
+      jsonp('//ad-platform.meguo.com/api/wechatgroup/plist?id=12', null, (err, data) => {
+        console.log(err, data)
+      })
+    },
+    ass () {
+      this.$router.push('/vipprivilege')
+    }
+  }
+}
+</script>

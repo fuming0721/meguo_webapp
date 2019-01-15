@@ -1,0 +1,46 @@
+<template>
+  <loading-container fetch="getHomeData" :params="params" @done="onDone">
+    <today-must-browse class="today-must-browse" :todayMustBrowseData="todayMustBrowse" @timeEnd="timeEnd" />
+    <goods-list-slider :dataList="volumeRank" title="销量排行" @seeMore="seeMore" />
+  </loading-container>
+</template>
+
+<script>
+import TodayMustBrowse from '../../Home/children/TodayMustBrowse'
+import GoodsListSlider from '@/components/GoodsListSlider'
+export default {
+  components: {
+    TodayMustBrowse,
+    GoodsListSlider
+  },
+  data () {
+    return {
+      params: {},
+      todayMustBrowse: {},
+      volumeRank: []
+    }
+  },
+  methods: {
+    onDone ([swiperImgs, todayMustBrowse, volumeRank]) {
+      this.todayMustBrowse = todayMustBrowse.data.result
+      this.volumeRank = volumeRank.data.result.threads
+    },
+    timeEnd () {
+      console.log('倒计时结束')
+    },
+    seeMore () {
+      if (this.$deviceType.isMeguoApp) {
+        window.location.href = 'miguo://m.miguo.cn/browser/open?url=http%3a%2f%2fm.meguo.com%2fvolumeranking'
+      } else {
+        this.$router.push('/volumeranking')
+      }
+    }
+  }
+}
+</script>
+
+<style lang="less" type="text/less">
+  .today-must-browse{
+    background-color: #fff;
+  }
+</style>

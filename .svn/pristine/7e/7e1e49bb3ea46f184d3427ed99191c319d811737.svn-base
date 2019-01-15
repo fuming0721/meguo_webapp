@@ -1,0 +1,543 @@
+<template>
+  <div class="PromotionSwiper" v-if="flag">
+    <van-swipe :show-indicators="false" @change="handleChange" :autoplay="10000" :loop="true" class="Promotion_swiper">
+      <van-swipe-item class="swiperItem" v-for="(item, index) in listData.content" :key="index">
+        <img class="topImg" :src="item.imgurl+'_q80.jpg'" alt="">
+        <div class="infoDex">
+          <div class="infoDex_left">
+            <p class="infoTitle">券后价</p>
+            <p class="info_price">￥<span>{{listData.content[itemIndex].price | formatMoney}}</span></p>
+            <div class="info_oldPrice">
+              <del class="info_old">
+                ￥{{(parseFloat(listData.content[itemIndex].price)+parseFloat(listData.content[itemIndex].coupon)) |
+                formatMoney}}</del>
+              <p class="info_volume">销量{{listData.content[itemIndex].volume}}件</p>
+            </div>
+          </div>
+          <div class="infoDex_right">
+            <p class="time">距结束还剩</p>
+            <div class="timeNum">
+              00:00:{{minutes}}.{{seconds}}
+            </div>
+          </div>
+        </div>
+        <div class="des">
+          <h3>【购买方式】</h3>
+          <p v-if="listData.wx_type==1">打开微信→添加微信号“{{weixinInfo.number}}”为好友→私信店主购买</p>
+          <p v-else-if="listData.wx_type==2">打开微信→添加朋友→搜索公众号“{{weixinInfo.number}}”关注→私信店主购买哦。</p>
+          <button class="des_btn" @click="doCopy" v-if="listData.wx_type==1">一键复制微信号</button>
+          <button class="des_btn" @click="doCopy" v-else-if="listData.wx_type==2">一键复制公众号</button>
+        </div>
+        <div class="bottom_btn">
+          <div class="bottom_btn_left">
+            <div class="botton_coupon">{{listData.content[itemIndex].coupon}}元优惠券</div>
+            <div class="endTime">使用期限：{{startTime | formatTime}}-{{endTime | formatTime}}</div>
+          </div>
+          <button class="bottom_btn_right" @click="doCopy">
+            立即抢购
+          </button>
+        </div>
+      </van-swipe-item>
+    </van-swipe>
+
+    <transition name="msgbox">
+      <div v-show="showMsgbox" class="msgBox" @click="showMsgbox=false">
+        <div class="msgbox-center" v-if="listData.wx_type==1">
+          <div class="msboxtop">
+            <i class="iconfont icon-reminder msgIcon"></i>
+            <span class="msgtitle">复制微信号成功</span>
+          </div>
+          <div class="msgdes">
+            <p class="msgdesTitle">【购买方式】</p>
+            <p>打开微信→添加微信号“{{weixinInfo.number}}”为好友→私信店主购买</p>
+          </div>
+        </div>
+
+        <div class="msgbox-center" v-else-if="listData.wx_type==2">
+          <div class="msboxtop">
+            <i class="iconfont icon-reminder msgIcon"></i>
+            <span class="msgtitle">复制公众号成功</span>
+          </div>
+          <div class="msgdes">
+            <p class="msgdesTitle">【购买方式】</p>
+            <p>打开微信→添加朋友→搜索公众号“{{weixinInfo.number}}”关注→私信店主购买哦。</p>
+            <p class="msgdesTitle2">【如何添加公众号？】</p>
+          </div>
+          <img class="activeImg" src="https://img.alicdn.com/imgextra/i3/62752115/O1CN011RUi8Gkw5Q99z12-62752115.gif"
+               alt="">
+        </div>
+      </div>
+    </transition>
+
+    <ul class="buyer">
+      <transition name="iconBox">
+        <!--eslint-disable-next-line-->
+        <li class="swiperItemUserBox" v-for="(item, index) in userIcon" :key="index" v-if="index == userIconIndex && isshow">
+          <img :src="item.imgurl" alt="">
+          <div class="buyerName">{{item.name}} {{item.sec}}秒前领取了优惠券</div>
+        </li>
+      </transition>
+    </ul>
+  </div>
+</template>
+<script>
+import userIcon from './util/userIcon.js'
+export default {
+  data: function () {
+    return {
+      listData: {},
+      startTime: 0,
+      endTime: 0,
+      showMsgbox: false,
+      weixinInfo: {},
+      flag: false,
+      minutes: 88,
+      seconds: 88,
+      userIcon: userIcon,
+      timer: '',
+      itemIndex: 0,
+      userIconIndex: Math.floor(Math.random() * 20),
+      isshow: true,
+      buyerTimer: '',
+      wx_type: 0,
+      wechatgroupUrl: '//ad-platform.meguo.com/api/wechatgroup/plist',
+      updateWechatUrl: '//ad-platform.meguo.com/api/wechatgroup/updatewx'
+    }
+  },
+  mounted () {
+    this.startTime = parseInt(new Date(new Date(new Date().toLocaleDateString()).getTime()) / 1000)
+    this.endTime = parseInt(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1) / 1000
+    this.setTime()
+    this.getDataArr()
+    this.showBuyerInfo()
+  },
+  methods: {
+    showBuyerInfo () {
+      this.buyerTimer = setInterval(() => {
+        this.isshow = false
+        setTimeout(() => {
+          this.userIconIndex = Math.floor(Math.random() * 20)
+          this.isshow = true
+        }, 500)
+      }, 3000)
+    },
+    setTime () {
+      this.timer = setInterval(() => {
+        let min = 59 - new Date().getMinutes()
+        if (min < 10) {
+          min = 59 - new Date().getMinutes() + 11
+        }
+        let sec = 59 - new Date().getSeconds()
+        sec = sec < 10 ? '0' + sec : sec
+        this.minutes = min
+        this.seconds = sec
+      }, 1000)
+    },
+    handleChange (index) {
+      this.itemIndex = index
+    },
+    getDataArr () {
+      this.$jsonp(`${this.wechatgroupUrl}?id=${this.$route.query.id}`, null, (err, data) => {
+        if (err) {
+          this.$toast('ID错误， 请重新尝试')
+        } else {
+          if (data.status) {
+            this.flag = true
+            this.listData = data.data
+            this.weixinInfo = data.data.weixin
+          } else {
+            this.$toast('ID错误， 请重新尝试')
+          }
+        }
+      })
+    },
+    doCopy (e) {
+      this.$copyText(this.listData.weixin.number).then(e => {
+        this.showMsgbox = true
+        this.$jsonp(`${this.updateWechatUrl}?gid=${this.listData.wx_group}&number=${this.weixinInfo['number']}&wid=${this.weixinInfo.id}`, null, (err, data) => {
+          if (err) {
+            this.$toast('ID错误， 请重新尝试')
+          } else {
+            if (data.status) {
+              if (data.data) {
+                this.weixinInfo = data.data
+              }
+            } else {
+              this.$toast('ID错误， 请重新尝试')
+            }
+          }
+        })
+      }, e => {
+        this.$toast({
+          duration: 3000,
+          forbidClick: true,
+          message: '复制失败，请重新尝试'
+        })
+      })
+    }
+  },
+  destroyed () {
+    clearInterval(this.timer)
+    clearInterval(this.buyerTimer)
+  }
+}
+</script>
+
+<style lang="less" type="text/less" scoped>
+  .PromotionSwiper {
+    background-color: #fff;
+    height: 100vh;
+    width: 100%;
+  }
+  .Promotion_swiper {
+    height: 100vh;
+    width: 100%;
+  }
+  .swiperItem {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
+  .msgtitle{
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .topImg {
+    width: 750px;
+    height: 750px;
+  }
+  .infoDex {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .infoDex_left {
+    width: 490px;
+    height: 100px;
+    padding: 10px;
+    background-color: @base_font_color;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .infoDex_left::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 50px 0 50px 20px;
+    border-color: transparent transparent transparent #F23C4E;
+    right: -20px;
+    top: 0;
+  }
+
+  .infoDex_right {
+    width: 260px;
+    height: 100%;
+    background-color: #F8E71C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .info_price {
+    font-size: 28px;
+    color: #F8E71C;
+    display: flex;
+    padding: 0 20px 0 10px;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .info_price > span {
+    font-size: 60px;
+    font-weight: bolder;
+  }
+  .iconBox-enter-active {
+    transition: all .5s ease-in-out;
+  }
+  .iconBox-leave-active {
+    transition: all .5s ease-in-out;
+  }
+  .infoTitle {
+    color: @base_font_color;
+    background-color: #fff;
+    font-size: 20px;
+    height: 36px;
+    width: 84px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+  }
+  .timeNum {
+    background-color: #800E1C;
+    color: #fff;
+    font-size: 24px;
+    height: 40px;
+    width: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  .time {
+    color: #D0021B;
+    font-size: 24px;
+  }
+  .info_oldPrice {
+    font-size: 24px;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    margin-left: 10px;
+    align-items: flex-start;
+    justify-content: space-around;
+    color: #fff;
+  }
+  .bottom_btn_left {
+    flex-shrink: 0;
+    width: 480px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .des_btn {
+    width: 240px;
+    height: 60px;
+    margin: 70px auto 0;
+    text-align: center;
+    display: block;
+    background-color: #ddd;
+    color: #333;
+    font-size: 26px;
+    border: none;
+    border-radius: 30px;
+  }
+  .bottom_btn_right {
+    width: 270px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    color: #fff;
+    border: none;
+    background-color: #D0021B;
+    font-size: 32px;
+    flex-shrink: 0;
+  }
+
+  .bottom_btn {
+    width: 100%;
+    height: 100px;
+    background-color: #D0021B;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .des {
+    padding: 40px 20px;
+    font-size: 28px;
+    flex-grow: 1;
+  }
+
+  .des > h3 {
+    margin-bottom: 30px;
+  }
+  .iconBox-enter {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+
+  .iconBox-leave-to {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  .activeImg {
+    width: 90%;
+    display: block;
+    margin: 0 auto 20px;
+  }
+
+  .msgdesTitle {
+    text-align: center;
+  }
+
+  .msgdesTitle2 {
+    text-align: center;
+    margin-bottom: 0 !important;
+  }
+
+  .buyer {
+    height: 56px;
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    line-height: 56px;
+    min-width: 70%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 48px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .swiperItemUserBox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .swiperItemUserBox > img {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    margin: 0;
+    margin-right: 10px;
+  }
+
+  .buyerName {
+    font-size: 22px;
+    color: #fff;
+  }
+
+  .botton_coupon {
+    font-size: 28px;
+  }
+
+  .endTime {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+
+  .goods-title {
+    margin: 20px;
+    box-sizing: border-box;
+    font-size: 28px;
+    overflow: hidden;
+    height: 80px;
+  }
+
+  .topImg > img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .msgBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .msgbox-enter-active {
+    animation: bounce-in .1s;
+  }
+
+  .msgbox-leave-active {
+    animation: bounce-in .1s reverse;
+  }
+
+  .msgconfirm, .cancel {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .cancel > button {
+    width: 90%;
+    height: 72px;
+    border: 2px solid #F23C4E;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 8px;
+    font-size: 28px;
+    color: #F23C4E;
+  }
+
+  .msgconfirm > button {
+    width: 90%;
+    height: 72px;
+    border: none;
+    background-color: #F23C4E;
+    border-radius: 8px;
+    font-size: 28px;
+    color: #fff;
+  }
+
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .msgbox-center {
+    min-height: 300px;
+    width: 80%;
+    max-width: 700px;
+    background-color: #fff;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .msboxtop {
+    height: 90px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    border-bottom: 2px solid #f2f2f2;
+  }
+
+  .msgIcon {
+    font-size: 40px;
+    color: #00ff0a;
+  }
+
+  .msgdes {
+    font-size: 26px;
+    color: #333;
+    width: 100%;
+    padding: 20px 40px;
+    box-sizing: border-box;
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  .msgdes > p {
+    margin-bottom: 20px;
+  }
+</style>

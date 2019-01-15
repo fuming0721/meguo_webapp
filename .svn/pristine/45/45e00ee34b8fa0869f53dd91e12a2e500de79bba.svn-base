@@ -1,0 +1,180 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+import bridge from '@/config/bridge'
+Vue.use(Router)
+
+const router = new Router({
+  mode: 'history',
+  routes: [
+    {
+      path: '*',
+      meta: { rank: 10, title: '错误' },
+      component: () => import('@/views/Error/Error')
+    },
+    {
+      path: '/',
+      name: 'home',
+      meta: { rank: 1, showTabbar: true, title: '聚多多优惠—聪明你的消费' },
+      component: () => import('@/views/Home/Home.vue')
+    },
+    {
+      path: '/baoyou',
+      name: 'baoyou',
+      meta: { rank: 1, showTabbar: true, title: '9.9包邮' },
+      component: () => import('@/views/Baoyou/Baoyou.vue')
+    },
+    {
+      path: '/zhongcao',
+      name: 'zhongcao',
+      meta: { rank: 1, showTabbar: true, title: '小编种草' },
+      component: () => import('@/views/ZhongCao/ZhongCao.vue')
+    },
+    {
+      path: '/couponsearch',
+      name: 'couponsearch',
+      meta: { rank: 1, showTabbar: true, title: '搜券' },
+      component: () => import('@/views/CouponSearch/CouponSearch.vue')
+    },
+    {
+      path: '/my',
+      name: 'my',
+      meta: { rank: 1, title: '我' },
+      component: () => import('@/views/My/My.vue')
+    },
+    {
+      path: '/detail/:id',
+      name: 'detail',
+      props: true,
+      meta: { rank: 10, title: '详情' },
+      component: () => import('@/views/Detail/Detail.vue')
+    },
+    {
+      path: '/album',
+      name: 'album',
+      meta: { rank: 2 },
+      component: () => import('@/views/Album/Album.vue')
+    },
+    {
+      path: '/category',
+      name: 'category',
+      meta: { rank: 2 },
+      component: () => import('@/views/Category/Category.vue')
+    },
+    {
+      path: '/subcategory',
+      name: 'subcategory',
+      meta: { rank: 3 },
+      component: () => import('@/views/Category_sub/SubCategory.vue')
+    },
+    {
+      path: '/timebuy',
+      name: 'timebuy',
+      meta: { rank: 2, title: '限时抢购' },
+      component: () => import('@/views/h5_timeBuy/TimeBuy.vue')
+    },
+    {
+      path: '/halfoff',
+      name: 'halfoff',
+      meta: { rank: 2, title: '半价精选' },
+      component: () => import('@/views/h5_HalfOff/HalfOff.vue')
+    },
+    {
+      path: '/bigcoupon',
+      name: 'bigCoupon',
+      meta: { rank: 2, title: '大额优惠券' },
+      component: () => import('@/views/h5_BigCoupon/BigCoupon.vue')
+    },
+    {
+      path: '/bestgoods',
+      name: 'bestgoods',
+      meta: { rank: 2, title: '聚好货' },
+      component: () => import('@/views/h5_BestGoods/BestGoods.vue')
+    },
+    {
+      path: '/coupongettingranking',
+      name: 'coupongettingranking',
+      meta: { rank: 2, title: '领券排行' },
+      component: () => import('@/views/h5_CouponGetingRanking/CouponGettingRanking.vue')
+    },
+    {
+      path: '/volumeranking',
+      name: 'volumeranking',
+      meta: { rank: 2, title: '热卖排行榜' },
+      component: () => import('@/views/h5_VolumeRanking/VolumeRanking.vue')
+    },
+    {
+      path: '/app_home',
+      name: 'app_home',
+      meta: { rank: 1, title: 'app首页' },
+      component: () => import('@/views/onlyApp/appHomePage/AppHomePage.vue')
+    },
+    {
+      path: '/app_ju_money',
+      name: 'app_ju_money',
+      meta: { rank: 1, title: '聚赚钱' },
+      component: () => import('@/views/onlyApp/appJuMoney/AppJuMoney.vue')
+    },
+    {
+      path: '/vipprivilege',
+      name: 'vipprivilege',
+      meta: { rank: 10, title: '会员特权', requiresAuth: true },
+      component: () => import('@/views/h5_VipPrivilege/VipPrivilege.vue')
+    },
+    {
+      path: '/customerservice',
+      name: 'customerservice',
+      meta: { rank: 10, title: '客服帮助' },
+      component: () => import('@/views/h5_CustomerService/CustomerService.vue')
+    },
+    {
+      path: '/invite',
+      name: 'invite',
+      meta: { rank: 10, title: '邀请赚', requiresAuth: true },
+      component: () => import('@/views/h5_Invite/Invite.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      meta: { rank: 11, title: '登录' },
+      component: () => import('@/views/Login/Login.vue')
+    },
+    {
+      path: '/lottery',
+      name: 'lottery',
+      meta: { rank: 10, title: '红包抽奖', requiresAuth: true },
+      component: () => import('@/views/h5_Lottery/PageLottery.vue')
+    },
+    {
+      path: '/download',
+      name: 'download',
+      meta: { title: '聚多多优惠APP官方下载' },
+      component: () => import('@/views/DownloadGuide/downloadGuide.vue')
+    },
+    {
+      path: '/help',
+      name: 'help',
+      meta: { rank: 10, title: '帮助中心' },
+      component: () => import('@/views/h5_Help/HelpCenter.vue')
+    }
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    bridge.callhandler('setTitle', to.meta.title)
+    document.title = to.meta.title
+  } else {
+    bridge.callhandler('setTitle', to.query.title)
+    document.title = to.query.title
+  }
+  next()
+})
+
+export default router

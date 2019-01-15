@@ -1,0 +1,134 @@
+.van-loading{
+  width: 60px !important;
+  height: 60px !important;
+  margin: 20px 0 !important;
+}
+.van-swipe__indicator{
+  background-color: #D1D1D1 !important;
+  opacity: 0.8 !important;
+  width: 12px !important;
+  height: 12px !important;
+}
+.van-swipe__indicator--active{
+  background-color: #F23C4E !important;
+}
+.van-swipe__indicator:not(:last-child){
+  margin-right: 12px !important;
+}
+.van-tabbar{
+  height: 100px !important;
+}
+.van-tabbar-item--active{
+  color: @base_font_color !important;
+}
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.van-tabs__wrap{
+  height: 80px !important;
+  border-bottom: 2px solid #f2f2f2;
+}
+.van-tabs{
+  padding-top: 80px !important;
+  position: sticky !important;
+  top: 0;
+  z-index: 1000 !important;
+
+}
+.van-tab{
+  font-size: 26px !important;
+  line-height: 80px !important;
+  color: #333 !important;
+}
+.van-tabs__line{
+  height: 4px !important;
+  border-radius: 4px !important;
+  background-color: @base_font_color !important;
+}
+.van-tab--active{
+  color: @base_font_color !important;
+  font-weight: normal !important;
+}
+.van-list__loading-text{
+  font-size: 24px !important;
+  margin-left: 20px;
+}
+.van-list__finished-text{
+  font-size: 24px !important;
+  line-height: 100px !important;
+  position: relative;
+}
+
+.NavBarInApp{
+  padding-top: 0 !important;
+}
+.timeNav {
+  position: sticky !important;
+  top: 0;
+  z-index: 1000;
+  .van-tabs__wrap{
+    height: 100px !important;
+  }
+  .van-tab{
+    background-color: transparent;
+  }
+  .van-tabs{
+    padding-top: 100px !important;
+  }
+}
+.van-overlay{
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+.timeBuyTimeNav{
+  .van-tabs__nav {
+    background: -moz-linear-gradient(left, #FF8866 0%, #DD2D1A 100%);
+    background: -webkit-linear-gradient(left, #FF8866 0%, #DD2D1A 100%);
+    background: -o-linear-gradient(left, #FF8866 0%, #DD2D1A 100%);
+    background: -ms-linear-gradient(left, #FF8866 0%, #DD2D1A 100%);
+    background: linear-gradient(to right, #FF8866 0%, #DD2D1A 100%);
+  }
+  .van-tab--active{
+    background: -moz-linear-gradient(top, #F76B1C 0%, #FAD961 100%);
+    background: -webkit-linear-gradient(top, #F76B1C 0%, #FAD961 100%);
+    background: -o-linear-gradient(top, #F76B1C 0%, #FAD961 100%);
+    background: -ms-linear-gradient(top, #F76B1C 0%, #FAD961 100%);
+    background: linear-gradient(to bottom, #F76B1C 0%, #FAD961 100%);
+  }
+}
+.halfOffTimeNav{
+  .van-tabs__nav {
+    background: -moz-linear-gradient(left, #C86DD7 0%, #3023AE 100%);
+    background: -webkit-linear-gradient(left, #C86DD7 0%, #3023AE 100%);
+    background: -o-linear-gradient(left, #C86DD7 0%, #3023AE 100%);
+    background: -ms-linear-gradient(left, #C86DD7 0%, #3023AE 100%);
+    background: linear-gradient(to right, #C86DD7 0%, #3023AE 100%);
+  }
+  .van-tab--active{
+    background: -moz-linear-gradient(top, #C86DD7 0%, #7243BF 100%);
+    background: -webkit-linear-gradient(top, #C86DD7 0%, #7243BF 100%);
+    background: -o-linear-gradient(top, #C86DD7 0%, #7243BF 100%);
+    background: -ms-linear-gradient(top, #C86DD7 0%, #7243BF 100%);
+    background: linear-gradient(to bottom, #C86DD7 0%, #7243BF 100%);
+  }
+}
+.van-notify{
+  font-size: 26px !important;
+  height: 60px !important;
+  line-height: 60px !important;
+  padding: 0 !important;
+}
+.van-cell{
+  padding: 20px 30px !important;
+  font-size: 26px !important;
+  line-height: 48px !important;
+}
+.van-cell__right-icon{
+  height: 48px !important;
+  font-size: 32px !important;
+  line-height: 48px !important;
+}
+.van-cell:not(:last-child)::after {
+  border-bottom: 2px solid #f2f2f2 !important;
+}

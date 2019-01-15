@@ -1,0 +1,32 @@
+<template>
+  <div class="home">
+    <button @click="ass">安徽科技</button>
+  </div>
+</template>
+
+<script>
+
+export default {
+  components: {
+  },
+  data () {
+    return {
+      num: 0
+    }
+  },
+  mounted () {
+
+  },
+  methods: {
+    getList () {
+      this.num += 1
+      this.$api('pic', { cid: this.num }).then(data => {
+        console.log(data)
+      })
+    },
+    ass () {
+      this.$router.push('/vipprivilege')
+    }
+  }
+}
+</script>
